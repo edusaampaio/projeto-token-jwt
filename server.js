@@ -3,11 +3,17 @@ import router from "./routes/public.js";
 import mongoose from "mongoose";
 import jwt  from "jsonwebtoken";
 import dotenv from "dotenv";
-import Handlebars from "handlebars";
+import { engine } from 'express-handlebars';
+
 
 dotenv.config()
-
 const app = express()
+
+// configuração do handlebars
+app.engine('handlebars', engine())
+app.set('view engine', 'handlebars')
+app.set('views', './views')
+
 app.use(express.json())
 // conectando com banco de dados
 mongoose.connect('mongodb://127.0.0.1:27017/acessojwt', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -50,9 +56,13 @@ app.get('/user/validateToken', (req, res) =>{
     }
 })
 
-app.get('/', (req, res)=>{  
-    res.send("🚀 Deu bom!")
+app.get('/', (req, res)=>{
+    res.render('forms')
 })
+
+// app.get('/', (req, res)=>{  
+//     res.send("🚀 Deu bom!")
+// })
 
 app.use('/', router)
 
