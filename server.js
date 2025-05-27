@@ -5,9 +5,11 @@ import jwt  from "jsonwebtoken";
 import dotenv from "dotenv";
 import { engine } from 'express-handlebars';
 
-
 dotenv.config()
 const app = express()
+
+// Config bootstrap
+app.use('/bootstrap', express.static('./node_modules/bootstrap/dist'))
 
 // configuração do handlebars
 app.engine('handlebars', engine())
