@@ -5,7 +5,7 @@ import jwt  from "jsonwebtoken";
 import dotenv from "dotenv";
 import { engine } from 'express-handlebars';
 import bcrypt from 'bcrypt'
-const { body, validationResult } = require('express-validator');
+import { body, validationResult } from 'express-validator';
 
 dotenv.config()
 const app = express()
@@ -20,7 +20,7 @@ app.set('views', './views')
 
 app.use(express.json())
 // conectando com banco de dados
-mongoose.connect('mongodb://127.0.0.1:27017/acessojwt', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://127.0.0.1:27017/usersjwt', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('✅ Conectado ao MongoDB');
   })
