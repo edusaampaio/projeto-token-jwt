@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Completar Perfil</title>
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f0f8ff;
+    }
+    .full-height {
+      min-height: 100vh;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container d-flex justify-content-center align-items-center full-height">
+    <div class="card shadow p-4 w-100" style="max-width: 700px;">
+      <h2 class="text-center mb-4 text-primary">Formulário de Perfil</h2>
+
+      <form action="/cadastro/perfil" method="POST">
+        <!-- Campo oculto com email do usuário -->
+        <input type="hidden" name="email" value="{{email}}">
+
+        <div class="mb-3">
+          <label class="form-label">Quando você se consagrou?</label>
+          <input type="date" class="form-control" name="consagracaoQuando" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Data da sua consagração:</label>
+          <input type="date" class="form-control" name="consagracaoData" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Nome do seu formador:</label>
+          <input type="text" class="form-control" name="formadorNome" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">O que mais te motiva a continuar na comunidade?</label>
+          <textarea class="form-control" name="motivacao" rows="2" required></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Quando foi a sua conversão?</label>
+          <input type="date" class="form-control" name="conversaoData" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Qual o seu endereço?</label>
+          <input type="text" class="form-control" name="endereco" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Você aceita se reunir com os leigos próximos para criar uma célula?</label>
+          <select class="form-select" name="aceitaCelula" required>
+            <option value="">Selecione...</option>
+            <option value="Sim">Sim</option>
+            <option value="Não">Não</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Já pensou em sair da comunidade? Se sim, por qual motivo?</label>
+          <textarea class="form-control" name="sairMotivo" rows="2" required></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Qual a sua ocupação atual?</label>
+          <input type="text" class="form-control" name="ocupacao" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Quanto tempo por semana você tem disponível para a comunidade?</label>
+          <input type="text" class="form-control" name="tempoDisponivel" required>
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">Enviar Respostas</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
