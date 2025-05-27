@@ -59,15 +59,13 @@ app.get('/user/validateToken', (req, res) => {
   }
 });
 
-// Página inicial com formulário de cadastro
 app.get('/', (req, res) => {
   res.render('forms');
 });
 
-// Exibir formulário de perfil após o cadastro
 app.get('/cadastro/perfil', (req, res) => {
   const { email } = req.query;
-  res.render('perfilForm', { email }); // <-- Certifique-se que ./views/perfilForm.handlebars existe!
+  res.render('perfilForm', { email }); 
 });
 
 // Usuário fake para teste de login
@@ -97,7 +95,7 @@ app.post('/login', [
   res.json({ token });
 });
 
-// Middleware para autenticação JWT (use quando quiser proteger rotas)
+// Middleware para proteger rotas)
 function autenticarJWT(req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ erro: 'Token não fornecido' });
@@ -110,7 +108,6 @@ function autenticarJWT(req, res, next) {
   });
 }
 
-// Cadastro do usuário (etapa 1)
 app.post('/cadastro', async (req, res) => {
   const { email, nome, senha } = req.body;
 
@@ -119,7 +116,7 @@ app.post('/cadastro', async (req, res) => {
     const novoUsuario = new User({ email, nome, senhaHash });
     await novoUsuario.save();
 
-    // Após salvar, redireciona para o formulário de perfil, passando email por query string
+    
     return res.redirect(`/cadastro/perfil?email=${encodeURIComponent(email)}`);
   } catch (err) {
     console.error('Erro ao salvar usuário:', err);
@@ -127,49 +124,56 @@ app.post('/cadastro', async (req, res) => {
   }
 });
 
-// Cadastro do perfil (etapa 2)
 app.post('/cadastro/perfil', async (req, res) => {
-  try {
-    const {
-      consagracaoQuando,
-      consagracaoData,
-      formadorNome,
-      motivacao,
-      conversaoData,
-      endereco,
-      aceitaCelula,
-      sairMotivo,
-      ocupacao,
-      tempoDisponivel,
-      email
-    } = req.body;
+    try {
+      const {
+        consagracaoQuando,
+        consagracaoData,
+        formadorNome,
+        motivacao,
+        conversaoData,
+        endereco,
+        aceitaCelula,
+        sairMotivo,
+        ocupacao,
+        tempoDisponivel,
+        email
+      } = req.body;
+  
+      
+      const novoPerfil = new PerfilUsuario({
+        consagracaoQuando,
+        consagracaoData,
+        formadorNome,
+        motivacao,
+        conversaoData,
+        endereco,
+        aceitaCelula,
+        sairMotivo,
+        ocupacao,
+        tempoDisponivel,
+        email
+      });
+  
+      await novoPerfil.save();
+  
+      const usuario = await User.findOne({ email: email });
+  
+      if (!usuario) {
+        return res.status(404).send('Usuário não encontrado');
+      }
+  
+      res.render('sucesso', { nome: usuario.nome });
+    } catch (err) {
+      console.error('❌ Erro ao salvar perfil:', err.message);
+      res.status(500).send('Erro ao salvar perfil.');
+    }
+  });
+  
 
-    const novoPerfil = new PerfilUsuario({
-      consagracaoQuando,
-      consagracaoData,
-      formadorNome,
-      motivacao,
-      conversaoData,
-      endereco,
-      aceitaCelula,
-      sairMotivo,
-      ocupacao,
-      tempoDisponivel,
-      email
-    });
-
-    await novoPerfil.save();
-    res.render('sucesso', { nome: formadorNome }); // Exibe página de sucesso após salvar perfil
-  } catch (err) {
-    console.error('❌ Erro ao salvar perfil:', err.message);
-    res.status(500).send('Erro ao salvar perfil.');
-  }
-});
-
-// Outras rotas públicas
+//  rota pública
 app.use('/', router);
 
-// Iniciando o servidor
 app.listen(3000, () => {
   console.log("Servidor rodando em http://localhost:3000");
 });
