@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import { engine } from 'express-handlebars';
 import bcrypt from 'bcrypt'
 import { body, validationResult } from 'express-validator';
+import User from "./models/User.js";
 
 dotenv.config()
 const app = express()
@@ -19,6 +20,8 @@ app.set('view engine', 'handlebars')
 app.set('views', './views')
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
 // conectando com banco de dados
 mongoose.connect('mongodb://127.0.0.1:27017/usersjwt', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -104,6 +107,19 @@ function autenticarJWT(req, res, next){
             next()
     })    
 }
+app.post('/cadastro', async (req, res) => {
+    const { email, senha } = req.body;
+  
+    const senhaHash = bcrypt.hashSync(senha, 10);
+    
+    try {
+      const novoUsuario = new User({ email, senhaHash });
+      await novoUsuario.save();
+      res.status(201).json({ mensagem: "Usuário salvo no banco!" });
+    } catch (err) {
+      res.status(500).json({ erro: "Erro ao salvar no banco", detalhes: err.message });
+    }
+  });
 
 // app.get('/', (req, res)=>{  
 //     res.send("🚀 Deu bom!")
