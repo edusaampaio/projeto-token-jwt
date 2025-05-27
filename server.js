@@ -7,6 +7,7 @@ import { engine } from 'express-handlebars';
 import bcrypt from 'bcrypt'
 import { body, validationResult } from 'express-validator';
 import User from "./models/User.js";
+import PerfilUsuario from "./models/PerfilUsuario.js";
 
 dotenv.config()
 const app = express()
@@ -120,7 +121,50 @@ app.post('/cadastro', async (req, res) => {
     } catch (err) {
       res.status(500).json({ erro: "Erro ao salvar no banco", detalhes: err.message });
     }
-  });
+});
+import PerfilUsuario from './models/PerfilUsuario.js'; // ajuste o caminho se necessário
+
+app.post('/cadastro/perfil', async (req, res) => {
+  try {
+    const {
+      consagracaoQuando,
+      consagracaoData,
+      formadorNome,
+      motivacao,
+      conversaoData,
+      endereco,
+      aceitaCelula,
+      sairMotivo,
+      ocupacao,
+      tempoDisponivel,
+      email
+    } = req.body;
+
+    const novoPerfil = new PerfilUsuario({
+      consagracaoQuando,
+      consagracaoData,
+      formadorNome,
+      motivacao,
+      conversaoData,
+      endereco,
+      aceitaCelula,
+      sairMotivo,
+      ocupacao,
+      tempoDisponivel,
+      email
+    });
+
+    await novoPerfil.save();
+
+    res.render('sucesso', { nome: formadorNome }); // ou redirecionar, como preferir
+  } catch (err) {
+    console.error('❌ Erro ao salvar perfil:', err.message);
+    res.status(500).send('Erro ao salvar perfil.');
+  }
+});
+
+
+
 
 // app.get('/', (req, res)=>{  
 //     res.send("🚀 Deu bom!")
