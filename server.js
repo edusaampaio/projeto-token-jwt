@@ -5,6 +5,7 @@ import jwt  from "jsonwebtoken";
 import dotenv from "dotenv";
 import { engine } from 'express-handlebars';
 import bcrypt from 'bcrypt'
+const { body, validationResult } = require('express-validator');
 
 dotenv.config()
 const app = express()
@@ -62,6 +63,35 @@ app.get('/user/validateToken', (req, res) =>{
 app.get('/', (req, res)=>{
     res.render('forms')
 })
+
+const SECRET_KEY = 'entryLevelEy';
+
+const userFake = {
+    email: 'user@emial.com',
+    senhaHash: bcrypt.hashSync('123456', 10)
+}
+
+app.post('/login',[
+    body('email').isEmail().withMessage('Email inválido'),
+    body('senha').isLength({min: 6}).withMessage('Senha muito curta')
+], (req, res)=>{
+    const erros = validationResult(req)
+    if(!erros.isEmpty()){
+        return res.status(400).json({erros: erros.array()})
+    }
+
+    const {email, senha} = req.body
+
+    if(email !== userFake.email || !bcrypt.compareSync(senha, usuerFake.senhaHash)){
+      return res.status(401).json({ erro: 'Credenciais Inválidas'})  
+    }
+
+    const token = jwt.sign({email: userFake.email},SECRET_KEY,{expiresIn:'1h'})
+    res.json({token})
+
+})
+
+
 
 // app.get('/', (req, res)=>{  
 //     res.send("🚀 Deu bom!")
