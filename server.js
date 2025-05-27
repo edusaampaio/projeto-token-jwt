@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import jwt  from "jsonwebtoken";
 import dotenv from "dotenv";
 import { engine } from 'express-handlebars';
+import bcrypt from 'bcrypt'
 
 dotenv.config()
 const app = express()
