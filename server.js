@@ -91,7 +91,19 @@ app.post('/login',[
 
 })
 
+function autenticarJWT(req, res, next){
+    const authHeader = req.headers.authorization;
 
+    if(!authHeader) return res.status(401).json({erro: 'Token não fornecido'})
+    const token = authHeader.split(' ')[1]  
+
+    jwt.verify(token, SECRET_KEY, (err, usuario)=>{
+        if(err) return res.status(403).json({erro: 'token inválido'})
+
+            req.usuario = usuario
+            next()
+    })    
+}
 
 // app.get('/', (req, res)=>{  
 //     res.send("🚀 Deu bom!")
@@ -103,5 +115,5 @@ app.use('/', router)
 // app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.listen(3000, ()=>{console.log("Servidor rodando")})
+app.listen(3000, () => { console.log("Servidor rodando em http://localhost:3000")})
 
