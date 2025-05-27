@@ -108,13 +108,14 @@ function autenticarJWT(req, res, next){
     })    
 }
 app.post('/cadastro', async (req, res) => {
-    const { email, senha } = req.body;
+    console.log('📥 Dados recebidos:', req.body);
+    const { email, nome, senha } = req.body;
   
-    const senhaHash = bcrypt.hashSync(senha, 10);
-    
     try {
-      const novoUsuario = new User({ email, senhaHash });
+      const senhaHash = bcrypt.hashSync(senha, 10);
+      const novoUsuario = new User({ email, nome, senhaHash });
       await novoUsuario.save();
+      res.redirect('/index')
       res.status(201).json({ mensagem: "Usuário salvo no banco!" });
     } catch (err) {
       res.status(500).json({ erro: "Erro ao salvar no banco", detalhes: err.message });
