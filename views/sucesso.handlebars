@@ -1,5 +1,25 @@
-<div class="container text-center py-5">
-  <h1 class="text-success">Cadastro realizado com sucesso!</h1>
-  <p>Obrigado por compartilhar suas informações, {{nome}}.</p>
-  <a href="/" class="btn btn-outline-primary mt-3">Voltar</a>
-</div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cadastro Concluído</title>
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f0f8ff;
+    }
+    .full-height {
+      min-height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <div class="container d-flex justify-content-center align-items-center full-height">
+    <div class="card shadow p-5 text-center" style="max-width: 600px;">
+      <h1 class="text-success mb-4">Cadastro realizado com sucesso!</h1>
+      <p class="lead">Obrigado por se cadastrar, <strong>{{nome}}</strong>.</p>
+      <a href="/" class="btn btn-outline-primary mt-4">Voltar para a página inicial</a>
+    </div>
+  </div>
+</body>
+</html>

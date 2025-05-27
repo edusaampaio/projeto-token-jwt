@@ -112,7 +112,6 @@ function autenticarJWT(req, res, next) {
 
 // Cadastro do usuário (etapa 1)
 app.post('/cadastro', async (req, res) => {
-  console.log('📥 Dados recebidos:', req.body);
   const { email, nome, senha } = req.body;
 
   try {
