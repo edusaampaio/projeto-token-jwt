@@ -122,7 +122,6 @@ app.post('/cadastro', async (req, res) => {
       res.status(500).json({ erro: "Erro ao salvar no banco", detalhes: err.message });
     }
 });
-import PerfilUsuario from './models/PerfilUsuario.js'; // ajuste o caminho se necessário
 
 app.post('/cadastro/perfil', async (req, res) => {
   try {
@@ -163,18 +162,5 @@ app.post('/cadastro/perfil', async (req, res) => {
   }
 });
 
-
-
-
-// app.get('/', (req, res)=>{  
-//     res.send("🚀 Deu bom!")
-// })
-
 app.use('/', router)
-
-// public
-// app.use(express.static(path.join(__dirname, 'public')));
-
-
 app.listen(3000, () => { console.log("Servidor rodando em http://localhost:3000")})
-
