@@ -69,7 +69,7 @@ app.get('/cadastro/perfil', (req, res) => {
 });
 
 // Usuário fake para teste de login
-const SECRET_KEY = process.env.JWT_SECRET_KEY || 'entryLevelEy';
+const SECRET_KEY = process.env.JWT_SECRET_KEY || 'testing';
 
 const userFake = {
   email: 'user@email.com',
@@ -119,7 +119,7 @@ app.post('/cadastro', async (req, res) => {
     
     return res.redirect(`/cadastro/perfil?email=${encodeURIComponent(email)}`);
   } catch (err) {
-    console.error('Erro ao salvar usuário:', err);
+    console.error('Erro ao salvar usuário:', err);  
     return res.status(500).json({ erro: "Erro ao salvar no banco", detalhes: err.message });
   }
 });
