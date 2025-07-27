@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // conectando com banco de dados
-mongoose.connect('mongodb://127.0.0.1:27017/usersjwt', {
+mongoose.connect(process.env.BANCO, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
